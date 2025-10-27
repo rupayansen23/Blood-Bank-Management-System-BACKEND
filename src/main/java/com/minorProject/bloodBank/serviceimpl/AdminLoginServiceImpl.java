@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,8 +22,12 @@ public class AdminLoginServiceImpl implements AdminLoginService {
     @Autowired
     AdminConverter adminConverter;
 
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public AdminDTO saveAdminLoginCredential(Admin admin) {
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         adminLoginRepository.save(admin);
         AdminDTO adminDTO = adminConverter.convertEntityToAdminDTO(admin);
         return adminDTO;
@@ -31,14 +36,15 @@ public class AdminLoginServiceImpl implements AdminLoginService {
     @Override
     public ResponseEntity<String> findAdminLoginCredential(Admin admin) {
         try {
-            Admin admin1 = adminLoginRepository.findByUsernameAndPassword(admin.getUserName(), admin.getPassword());
-            if(admin1 == null) {
+            Admin admin1 = adminLoginRepository.findByUsername(admin.getUserName());
+            if(admin1 != null && passwordEncoder.matches(admin.getPassword(), admin1.getPassword())) {
+                return ResponseEntity.ok("Login Success");
+            } else {
                 throw new RuntimeException("Invalid Credentials");
             }
         }
         catch(RuntimeException r) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
         }
-        return ResponseEntity.ok("Login Success");
     }
 }
