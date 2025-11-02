@@ -15,7 +15,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())                                // ✅ new CSRF style
                 .authorizeHttpRequests(auth -> auth                          // ✅ lambda DSL
-                        .requestMatchers("/saveAdmin", "/adminLogin").permitAll()             // allow login
+                        .requestMatchers("/saveAdmin", "/adminLogin", "/saveHospital").permitAll()             // allow login
                         .anyRequest().authenticated()                            // protect others
                 )
                 .formLogin(form -> form.disable())
