@@ -36,6 +36,12 @@ public class BloodBank
 	
 	@Column(nullable=false)
 	private int totalBloodBankBloodGroups;
+
+	@Column(nullable = false, unique = true)
+	private String adminID;
+
+	@Column(nullable = false)
+	private String password;
 	
 	@OneToMany  //one blood bank can allow many donors for donating blood 
 	private List<Donor> donor;
@@ -45,4 +51,12 @@ public class BloodBank
 	
 	@OneToMany  //one blood bank has different types of blood groups
 	private List<BloodBankBloodGroup> bloodBankBloodGroup;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

@@ -40,6 +40,12 @@ public class BloodBankDTO
 	
 	@NotNull(message="Total no. of Blood Bank Blood Group field is required")
 	private int totalBloodBankBloodGroups;
+
+	@NotNull(message = "Admin User id is required")
+	private String adminID;
+
+	@NotNull(message = "Admin Password is Required")
+	private String password;
 	
 	@OneToMany  //one blood bank can allow many donors for donating blood 
 	private List<Donor> donor;

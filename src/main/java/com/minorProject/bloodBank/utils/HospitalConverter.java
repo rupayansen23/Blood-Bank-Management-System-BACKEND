@@ -1,6 +1,5 @@
 package com.minorProject.bloodBank.utils;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.minorProject.bloodBank.Entity.Hospital;
 import com.minorProject.bloodBank.dto.HospitalDTO;
 import org.springframework.beans.BeanUtils;
