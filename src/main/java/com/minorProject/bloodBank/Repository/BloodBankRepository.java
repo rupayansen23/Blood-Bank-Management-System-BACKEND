@@ -1,4 +1,7 @@
 package com.minorProject.bloodBank.Repository;
 
-public interface BloodBankRepository {
+import com.minorProject.bloodBank.Entity.BloodBank;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BloodBankRepository extends JpaRepository<BloodBank, Integer> {
 }

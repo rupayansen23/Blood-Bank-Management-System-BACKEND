@@ -1,6 +1,6 @@
 package com.minorProject.bloodBank.dto;
 
-import com.bloodBankManagement.entity.BloodBank;
+import com.minorProject.bloodBank.Entity.BloodBank;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
