@@ -6,5 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface AdminLoginService {
     public AdminDTO saveAdminLoginCredential(Admin admin);
-    public ResponseEntity<String> findAdminLoginCredential(Admin admin);
+    public ResponseEntity<AdminDTO> findAdminLoginCredential(String userName, String password);
+    public AdminDTO getAdminInformation(String userName);
 }

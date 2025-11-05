@@ -12,7 +12,7 @@ public class HospitalConverter {
         Hospital hospital = new Hospital();
         if(hospitalDTO != null)
         {
-            BeanUtils.copyProperties(hospitalDTO, hospital);
+            BeanUtils.copyProperties(hospitalDTO, hospital, "hospitalId");
         }
         return hospital;
     }

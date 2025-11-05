@@ -13,6 +13,16 @@ public class AdminDTO {
     @Size(max=50, message="Max. limit 15 characters")
     @Size(min=2,message="Min. 5 characters required")
     @NotNull(message="Admin username is required")
+    private String firstName;
+
+    @Size(max=50, message="Max. limit 15 characters")
+    @Size(min=2,message="Min. 5 characters required")
+    @NotNull(message="Admin username is required")
+    private String lastName;
+
+    @Size(max=50, message="Max. limit 15 characters")
+    @Size(min=2,message="Min. 5 characters required")
+    @NotNull(message="Admin username is required")
     private String userName;
 
     @Size(max=50, message="Max. limit 15 characters")

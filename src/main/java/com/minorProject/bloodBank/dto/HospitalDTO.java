@@ -40,6 +40,12 @@ public class HospitalDTO
 	
 	@NotNull(message="Total no. of Receiver field is required")
 	public int totalRecipients;
+
+	@NotNull(message = "Admin User id is required")
+	private String adminID;
+
+	@NotNull(message = "Admin Password is Required")
+	private String password;
 	
 	@ManyToOne  //many hospitals are in contact with one blood bank for the requirement of blood 
 	private BloodBank bloodBank;

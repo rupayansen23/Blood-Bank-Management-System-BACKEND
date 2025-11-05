@@ -17,6 +17,12 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "firstName", nullable = false, unique = true, length = 50)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false, unique = true, length = 50)
+    private String lastName;
+
     @Column(name = "username", nullable = false, unique = true, length = 50)
     private String userName;
 
@@ -45,5 +51,21 @@ public class Admin {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

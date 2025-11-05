@@ -34,17 +34,34 @@ public class AdminLoginServiceImpl implements AdminLoginService {
     }
 
     @Override
-    public ResponseEntity<String> findAdminLoginCredential(Admin admin) {
+    public AdminDTO getAdminInformation(String userName) {
         try {
-            Admin admin1 = adminLoginRepository.findByUsername(admin.getUserName());
-            if(admin1 != null && passwordEncoder.matches(admin.getPassword(), admin1.getPassword())) {
-                return ResponseEntity.ok("Login Success");
+            Admin admin = adminLoginRepository.findByUsername(userName);
+            if (admin != null) {
+                admin.setPassword(null);
+                return adminConverter.convertEntityToAdminDTO(admin);
+            } else {
+                throw new RuntimeException("Cannot found Entity");
+            }
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+        return  null;
+    }
+
+    @Override
+    public ResponseEntity<AdminDTO> findAdminLoginCredential(final String userName, final String password) {
+        try {
+            Admin admin1 = adminLoginRepository.findByUsername(userName);
+            if(admin1 != null && passwordEncoder.matches(password, admin1.getPassword())) {
+                AdminDTO adminDTO = adminConverter.convertEntityToAdminDTO(admin1);
+                return ResponseEntity.ok(adminDTO);
             } else {
                 throw new RuntimeException("Invalid Credentials");
             }
         }
         catch(RuntimeException r) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 }
