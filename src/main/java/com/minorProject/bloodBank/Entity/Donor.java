@@ -20,19 +20,19 @@ public class Donor
 	@Column(length=20, nullable=false)
 	private String donorName;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private int donorAge;
 	
-	@Column(length=12, nullable=false)
+	@Column(length=12, nullable=true)
 	private String donorGender;
 	
-	@Column(length=12, nullable=false)
+	@Column(length=12, nullable=true)
 	private String donorWeight;
 	
-	@Column(length=25, nullable=false)
+	@Column(length=25, nullable=true)
 	private String donorAddress;
 	
-	@Column(length=16, nullable=false)
+	@Column(length=16, nullable=true)
 	private String donorBloodGroup;
 	
 	@Column(length=10, nullable=false, unique=true)
@@ -40,7 +40,18 @@ public class Donor
 	
 	@Column(length=30, nullable=false, unique=true)
 	private String donorEmailId;
+
+	@Column(length=60, nullable=false, unique=true)
+	private String password;
 	
 	@ManyToOne  //many donors are allowed to donate blood in one blood bank
-	private BloodBank bloodBank; 
+	private BloodBank bloodBank;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
