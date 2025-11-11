@@ -5,10 +5,12 @@ import com.minorProject.bloodBank.Entity.Donor;
 import com.minorProject.bloodBank.Repository.DonorRepository;
 import com.minorProject.bloodBank.dto.DonorDTO;
 import com.minorProject.bloodBank.dto.DonorSignupDTO;
+import com.minorProject.bloodBank.dto.LoginRequest;
 import com.minorProject.bloodBank.service.DonorService;
 import com.minorProject.bloodBank.utils.DonorConverter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,4 +35,15 @@ public class DonorController {
     public List<DonorDTO> getAllDonorInfo() {
         return donorService.getALLDonors();
     }
+
+    @GetMapping("/donorInfo/{id}")
+    public DonorDTO getDonorById(@Valid @PathVariable int id)  {
+        return donorService.getDonorInfoById(id);
+    }
+
+    @PostMapping("/donorLogin")
+    public ResponseEntity<String> donorLogin(@Valid @RequestBody LoginRequest loginRequest) {
+        return donorService.donorLogin(loginRequest.getUserName(), loginRequest.getPassword());
+    }
+
 }
