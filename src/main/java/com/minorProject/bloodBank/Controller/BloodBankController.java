@@ -22,10 +22,9 @@ public class BloodBankController {
     BloodBankService bloodBankService;
 
     @PostMapping("/saveBloodBank")
-    public BloodBankDTO saveBloodBank(@Valid @RequestBody BloodBankDTO bloodBankDTO) {
+    public ResponseEntity<?> saveBloodBank(@Valid @RequestBody BloodBankDTO bloodBankDTO) {
         final BloodBank bloodBank = bloodBankConverter.convertBloodBankDTOtoEntity(bloodBankDTO);
-        BloodBankDTO bloodBankDTO1 =  bloodBankService.saveBloodBank(bloodBank);
-        return bloodBankDTO1;
+        return bloodBankService.saveBloodBank(bloodBank);
     }
 
     @GetMapping("/getBloodBankById/{id}")
@@ -39,10 +38,7 @@ public class BloodBankController {
     }
 
     @PostMapping("/BloodBankLogin")
-    public ResponseEntity<String> bloodBankLogin(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> bloodBankLogin(@Valid @RequestBody LoginRequest loginRequest) {
         return bloodBankService.bloodBankLogin(loginRequest.getUserName(), loginRequest.getPassword());
     }
-
-
-
 }

@@ -37,11 +37,11 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
-    public ResponseEntity<String> hospitalLogin(String userName, String password) {
+    public ResponseEntity<?> hospitalLogin(String userName, String password) {
         try {
             Hospital hospital = hospitalRepository.findByAdminID(userName);
             if(hospital != null && passwordEncoder.matches(password, hospital.getPassword())) {
-                return ResponseEntity.ok("Login Success");
+                return ResponseEntity.ok(hospitalConverter.convertEntitytoHospitalDTO(hospital));
             } else {
                 throw new RuntimeException("Login Failed");
             }

@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface HospitalService {
     public HospitalDTO saveHospital(Hospital hospital);
-    public ResponseEntity<String> hospitalLogin(String userName, String password);
+    public ResponseEntity<?> hospitalLogin(String userName, String password);
     public List<HospitalDTO> getAllHospitals();
 }

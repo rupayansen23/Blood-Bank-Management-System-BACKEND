@@ -9,6 +9,6 @@ import java.util.List;
 public interface DonorService {
     public DonorDTO donorSignUpService(Donor donor);
     public List<DonorDTO> getALLDonors();
-    public DonorDTO getDonorInfoById(int id);
-    public ResponseEntity<String> donorLogin(String userName, String password);
+    public DonorDTO getDonorInfoById(String emailId);
+    public ResponseEntity<?> donorLogin(String userName, String password);
 }

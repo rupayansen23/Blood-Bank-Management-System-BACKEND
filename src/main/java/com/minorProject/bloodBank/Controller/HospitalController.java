@@ -28,7 +28,7 @@ public class HospitalController {
     }
 
     @PostMapping("/hospitalLogin")
-    public ResponseEntity<String> hospitalLogin(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> hospitalLogin(@Valid @RequestBody LoginRequest loginRequest) {
         return hospitalService.hospitalLogin(loginRequest.getUserName(), loginRequest.getPassword());
     }
 

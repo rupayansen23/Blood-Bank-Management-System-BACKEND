@@ -36,13 +36,13 @@ public class DonorController {
         return donorService.getALLDonors();
     }
 
-    @GetMapping("/donorInfo/{id}")
-    public DonorDTO getDonorById(@Valid @PathVariable int id)  {
-        return donorService.getDonorInfoById(id);
+    @GetMapping("/donorInfo/{emailId}")
+    public DonorDTO getDonorById(@Valid @PathVariable String emailId)  {
+        return donorService.getDonorInfoById(emailId);
     }
 
     @PostMapping("/donorLogin")
-    public ResponseEntity<String> donorLogin(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> donorLogin(@Valid @RequestBody LoginRequest loginRequest) {
         return donorService.donorLogin(loginRequest.getUserName(), loginRequest.getPassword());
     }
 

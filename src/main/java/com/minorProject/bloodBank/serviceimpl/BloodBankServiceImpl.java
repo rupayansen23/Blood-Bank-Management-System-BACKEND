@@ -5,7 +5,6 @@ import com.minorProject.bloodBank.Entity.BloodBank;
 import com.minorProject.bloodBank.Repository.BloodBankRepository;
 import com.minorProject.bloodBank.dto.BloodBankDTO;
 import com.minorProject.bloodBank.exceptions.ResourceNotFoundException;
-import com.minorProject.bloodBank.security.SecurityConfig;
 import com.minorProject.bloodBank.service.BloodBankService;
 import com.minorProject.bloodBank.utils.BloodBankConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +40,15 @@ public class BloodBankServiceImpl implements BloodBankService {
     }
 
     @Override
-    public BloodBankDTO saveBloodBank(BloodBank bloodBank) {
-        bloodBank.setPassword(passwordEncoder.encode(bloodBank.getPassword()));
-        bloodBankRepository.save(bloodBank);
-        return bloodBankConverter.convertEntityToBloodBankDTO(bloodBank);
+    public ResponseEntity<?> saveBloodBank(BloodBank bloodBank) {
+        try {
+            bloodBank.setPassword(passwordEncoder.encode(bloodBank.getPassword()));
+            bloodBankRepository.save(bloodBank);
+            return ResponseEntity.ok(bloodBankConverter.convertEntityToBloodBankDTO(bloodBank));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot FullFil The Request");
+        }
     }
 
     @Override
@@ -58,11 +62,11 @@ public class BloodBankServiceImpl implements BloodBankService {
     }
 
     @Override
-    public ResponseEntity<String> bloodBankLogin(String userName, String password) {
+    public ResponseEntity<?> bloodBankLogin(String userName, String password) {
         try {
             BloodBank bloodBank = bloodBankRepository.findByAdminID(userName);
             if(bloodBank != null && passwordEncoder.matches(password, bloodBank.getPassword())) {
-                return ResponseEntity.ok("Login Success");
+                return ResponseEntity.ok(bloodBankConverter.convertEntityToBloodBankDTO(bloodBank));
             } else {
                 throw new RuntimeException("Invalid Credentials");
             }

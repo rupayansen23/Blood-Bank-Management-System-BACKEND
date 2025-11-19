@@ -48,22 +48,22 @@ public class DonorServiceImpl implements DonorService {
     }
 
     @Override
-    public DonorDTO getDonorInfoById(int id) {
-        Donor donor = donorRepository.findDonorBydonorId(id).orElseThrow(
-                ()-> new ResourceNotFoundException("Donor", "id", id)
+    public DonorDTO getDonorInfoById(String emailId) {
+        Donor donor = donorRepository.findDonorBydonorEmailId(emailId).orElseThrow(
+                ()-> new ResourceNotFoundException("Donor", "id", emailId)
         );
         return donorConverter.convertEntityToDonorDTO(donor);
     }
 
     @Override
-    public ResponseEntity<String> donorLogin(String emailId, String password) {
+    public ResponseEntity<?> donorLogin(String emailId, String password) {
         try {
             Optional<Donor> donorOpt = donorRepository.findDonorBydonorEmailId(emailId);
 
             if (donorOpt.isPresent()) {
                 Donor donor = donorOpt.get();
                 if (passwordEncoder.matches(password, donor.getPassword())) {
-                    return ResponseEntity.ok("Login Success");
+                    return ResponseEntity.ok(donorConverter.convertEntityToDonorDTO(donor));
                 } else {
                     throw new RuntimeException("Invalid Credentials");
                 }

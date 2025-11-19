@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface BloodBankService {
-    public BloodBankDTO saveBloodBank(BloodBank bloodBank);
+    public ResponseEntity<?> saveBloodBank(BloodBank bloodBank);
     public BloodBankDTO getBloodBankById(int bloodBankId);
     public List<BloodBankDTO> getAllBloodBanks();
-    public ResponseEntity<String> bloodBankLogin(String userName, String password);
+    public ResponseEntity<?> bloodBankLogin(String userName, String password);
 }
