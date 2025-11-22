@@ -2,7 +2,7 @@ package com.minorProject.bloodBank.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,6 +51,10 @@ public class BloodBank
 	
 	@OneToMany  //one blood bank has different types of blood groups
 	private List<BloodBankBloodGroup> bloodBankBloodGroup;
+
+	@OneToMany(mappedBy = "bloodBank")
+	private List<BloodRequest> requests;
+
 
 	public String getPassword() {
 		return password;

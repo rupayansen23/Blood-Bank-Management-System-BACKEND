@@ -3,6 +3,9 @@ package com.minorProject.bloodBank.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,6 +46,9 @@ public class Hospital
 	
 	@ManyToOne  //many hospitals are in contact with one blood bank for the requirement of blood 
 	private BloodBank bloodBank;
+
+	@OneToMany(mappedBy = "requester")
+	private List<BloodRequest> bloodRequests;
 
 	public String getAdminID() {
 		return adminID;

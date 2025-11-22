@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface BloodBankRepository extends JpaRepository<BloodBank, Integer> {
-    BloodBank findByAdminID(String adminID);
+    public BloodBank findByAdminID(String adminID);
+    public BloodBank findByBloodBankName(String bloodBankName);
 }

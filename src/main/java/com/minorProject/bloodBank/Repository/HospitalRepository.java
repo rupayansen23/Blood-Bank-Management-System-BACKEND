@@ -4,5 +4,6 @@ import com.minorProject.bloodBank.Entity.Hospital;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HospitalRepository extends JpaRepository<Hospital, Integer> {
-     Hospital findByAdminID(String adminID);
+     public Hospital findByAdminID(String adminID);
+     public Hospital findByHospitalId(int hospitalId);
 }
