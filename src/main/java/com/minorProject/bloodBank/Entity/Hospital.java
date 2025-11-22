@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,6 +49,7 @@ public class Hospital
 	private BloodBank bloodBank;
 
 	@OneToMany(mappedBy = "requester")
+	@JsonIgnore
 	private List<BloodRequest> bloodRequests;
 
 	public String getAdminID() {

@@ -3,7 +3,6 @@ package com.minorProject.bloodBank.serviceimpl;
 import com.minorProject.bloodBank.Entity.BloodRequest;
 import com.minorProject.bloodBank.Repository.BloodRequestRepository;
 import com.minorProject.bloodBank.dto.BloodRequestResponseDTO;
-import com.minorProject.bloodBank.dto.CreateBloodRequestDTO;
 import com.minorProject.bloodBank.service.BloodRequestService;
 import com.minorProject.bloodBank.utils.BloodRequestConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +40,14 @@ public class BloodRequestServiceImpl implements BloodRequestService {
     public ResponseEntity<?> showRequestsById(int id) {
         try {
             List<BloodRequest> requests = bloodRequestRepository.getBloodRequestById(id);
+            if(requests.isEmpty()) {
+                return ResponseEntity.ok().body("No Records Found");
+            }
             List<BloodRequestResponseDTO> responses = new ArrayList<>();
             for(BloodRequest req : requests) {
                 responses.add(bloodRequestConverter.convertEntityToBloodRequestResponseDTO(req));
             }
-            return ResponseEntity.ok(requests);
+            return ResponseEntity.ok(responses);
         }
         catch(RuntimeException e) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
