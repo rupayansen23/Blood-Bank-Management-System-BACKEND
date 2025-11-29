@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BloodRequestRepository extends JpaRepository<BloodRequest, Integer> {
-    @Query("SELECT b FROM BloodRequest b WHERE b.reqId = :id")
-    List<BloodRequest> getBloodRequestById(@Param("id") int id);
-
+    @Query("SELECT b FROM BloodRequest b WHERE b.bloodBank.bloodBankId = :id")
+    List<BloodRequest> getBloodRequestByBloodBankId(@Param("id") int id);
 }

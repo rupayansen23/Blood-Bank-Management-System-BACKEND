@@ -37,6 +37,7 @@ public class BloodRequestConverter {
             bloodRequestResponseDTO.setBloodGroup(bloodRequest.getBloodGroup());
             bloodRequestResponseDTO.setPriority(bloodRequest.getPriority());
             bloodRequestResponseDTO.setQuantity(bloodRequest.getQuantity());
+            bloodRequestResponseDTO.setReqId(bloodRequest.getReqId());
         }
         return bloodRequestResponseDTO;
     }

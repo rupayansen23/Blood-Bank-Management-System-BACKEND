@@ -55,6 +55,8 @@ public class BloodBank
 	@OneToMany(mappedBy = "bloodBank")
 	private List<BloodRequest> requests;
 
+	@OneToMany
+	private List<DonateRequest> donateRequestList;
 
 	public String getPassword() {
 		return password;

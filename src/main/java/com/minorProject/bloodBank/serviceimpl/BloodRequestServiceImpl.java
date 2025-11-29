@@ -39,7 +39,7 @@ public class BloodRequestServiceImpl implements BloodRequestService {
     @Override
     public ResponseEntity<?> showRequestsById(int id) {
         try {
-            List<BloodRequest> requests = bloodRequestRepository.getBloodRequestById(id);
+            List<BloodRequest> requests = bloodRequestRepository.getBloodRequestByBloodBankId(id);
             if(requests.isEmpty()) {
                 return ResponseEntity.ok().body("No Records Found");
             }

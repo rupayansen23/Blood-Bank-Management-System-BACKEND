@@ -1,7 +1,10 @@
 package com.minorProject.bloodBank.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,9 +46,10 @@ public class Donor
 
 	@Column(length=60, nullable=false, unique=true)
 	private String password;
-	
-	@ManyToOne  //many donors are allowed to donate blood in one blood bank
-	private BloodBank bloodBank;
+
+	@OneToMany
+	@JsonManagedReference
+	private List<DonateRequest> donateRequestList;
 
 	public String getPassword() {
 		return password;

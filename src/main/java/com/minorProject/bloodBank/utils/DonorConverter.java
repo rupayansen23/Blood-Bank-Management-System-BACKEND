@@ -21,4 +21,11 @@ public class DonorConverter {
         }
         return donorDTO;
     }
+    public Donor convertDonorDTOtoEntity(DonorDTO donorDTO) {
+        Donor donor = new Donor();
+        if(donorDTO != null) {
+            BeanUtils.copyProperties(donorDTO, donor);
+        }
+        return donor;
+    }
 }

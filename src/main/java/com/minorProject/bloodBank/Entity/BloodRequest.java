@@ -5,6 +5,8 @@ import com.minorProject.bloodBank.enums.Priority;
 import com.minorProject.bloodBank.enums.RequestStatus;
 import com.minorProject.bloodBank.enums.BloodGroup;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Table(name="blood_request")
@@ -17,10 +19,14 @@ public class BloodRequest {
 
     @ManyToOne(optional = false)
     @JoinColumn(name="requester_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Hospital requester;
 
     @ManyToOne
     @JoinColumn(name="blood_bank_id")
+    @ToString.Exclude               // ➜ ei line add
+    @EqualsAndHashCode.Exclude      // ➜ ei line add
     private BloodBank bloodBank;
 
     @Enumerated(EnumType.STRING)

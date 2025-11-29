@@ -50,6 +50,8 @@ public class Hospital
 
 	@OneToMany(mappedBy = "requester")
 	@JsonIgnore
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	private List<BloodRequest> bloodRequests;
 
 	public String getAdminID() {
