@@ -48,10 +48,8 @@ public class DonorServiceImpl implements DonorService {
     }
 
     @Override
-    public DonorDTO getDonorInfoById(String emailId) {
-        Donor donor = donorRepository.findDonorBydonorEmailId(emailId).orElseThrow(
-                ()-> new ResourceNotFoundException("Donor", "id", emailId)
-        );
+    public DonorDTO getDonorInfoById(int id) {
+        Donor donor = donorRepository.getReferenceById(id);
         return donorConverter.convertEntityToDonorDTO(donor);
     }
 

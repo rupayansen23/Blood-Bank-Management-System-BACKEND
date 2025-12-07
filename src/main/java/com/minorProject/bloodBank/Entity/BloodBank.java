@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class BloodBank
 	private List<BloodBankBloodGroup> bloodBankBloodGroup;
 
 	@OneToMany(mappedBy = "bloodBank")
+	@JsonManagedReference(value = "bloodBank-bloodRequests")
 	private List<BloodRequest> requests;
 
 	@OneToMany

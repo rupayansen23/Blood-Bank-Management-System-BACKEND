@@ -4,6 +4,7 @@ import com.minorProject.bloodBank.Entity.DonateRequest;
 import com.minorProject.bloodBank.Entity.Donor;
 import com.minorProject.bloodBank.Repository.BloodBankRepository;
 import com.minorProject.bloodBank.Repository.DonorRepository;
+import com.minorProject.bloodBank.dto.DonateReqRespUserSideDTO;
 import com.minorProject.bloodBank.dto.DonateRequestDTO;
 import com.minorProject.bloodBank.dto.DonorDTO;
 import com.minorProject.bloodBank.enums.RequestStatus;
@@ -33,7 +34,6 @@ public class DonateReqConverter {
             donateRequest.setBloodBank(bloodBankRepository.getReferenceById(donateRequestDTO.getBloodBankId()));
             donateRequest.setUnits(donateRequestDTO.getUnites());
             donateRequest.setRequestStatus(RequestStatus.PENDING);
-//            donateRequest.setBloodGroup(donateRequestDTO.getDonorDTO().getDonorBloodGroup());
             String bloodGroup = donateRequestDTO.getDonorDTO().getDonorBloodGroup();
             donateRequest.setBloodGroup(bloodGroup);
             Optional<Donor> donorOptional = donorRepository.findDonorBydonorId(donateRequest.getDonor().getDonorId());
@@ -49,5 +49,15 @@ public class DonateReqConverter {
             }
         }
         return donateRequest;
+    }
+    public DonateReqRespUserSideDTO convertEntitytoDonateReqDTO(final DonateRequest donateRequest) {
+        DonateReqRespUserSideDTO donateReqRespUserSideDTO = new DonateReqRespUserSideDTO();
+        if(donateRequest != null) {
+            donateReqRespUserSideDTO.setDonorDTO(donorConverter.convertEntityToDonorDTO(donateRequest.getDonor()));
+            donateReqRespUserSideDTO.setRequestId(donateRequest.getReqId());
+            donateReqRespUserSideDTO.setBloodBankName(donateRequest.getBloodBank().getBloodBankName());
+            donateReqRespUserSideDTO.setUnites(donateRequest.getUnits());
+        }
+        return donateReqRespUserSideDTO;
     }
 }

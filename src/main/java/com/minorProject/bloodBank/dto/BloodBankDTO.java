@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.dto;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.minorProject.bloodBank.Entity.Hospital;
 import com.minorProject.bloodBank.Entity.Donor;
 import com.minorProject.bloodBank.Entity.BloodBankBloodGroup;
@@ -47,7 +48,8 @@ public class BloodBankDTO
 	@NotNull(message = "Admin Password is Required")
 	private String password;
 	
-	@OneToMany  //one blood bank can allow many donors for donating blood 
+	@OneToMany  //one blood bank can allow many donors for donating blood
+	@JsonManagedReference
 	private List<Donor> donor;
 	
 	@OneToMany  //one blood bank is in contact with many hospitals for the supply of blood 

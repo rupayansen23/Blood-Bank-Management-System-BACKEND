@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Controller;
 import com.minorProject.bloodBank.Entity.BloodBank;
+import com.minorProject.bloodBank.dto.AddBloodBankDTO;
 import com.minorProject.bloodBank.dto.BloodBankDTO;
 import com.minorProject.bloodBank.dto.LoginRequest;
 import com.minorProject.bloodBank.service.BloodBankService;
@@ -22,8 +23,8 @@ public class BloodBankController {
     BloodBankService bloodBankService;
 
     @PostMapping("/saveBloodBank")
-    public ResponseEntity<?> saveBloodBank(@Valid @RequestBody BloodBankDTO bloodBankDTO) {
-        final BloodBank bloodBank = bloodBankConverter.convertBloodBankDTOtoEntity(bloodBankDTO);
+    public ResponseEntity<?> saveBloodBank(@Valid @RequestBody AddBloodBankDTO addbloodBankDTO) {
+        final BloodBank bloodBank = bloodBankConverter.convertAddBloodBankDTOtoEntity(addbloodBankDTO);
         return bloodBankService.saveBloodBank(bloodBank);
     }
 

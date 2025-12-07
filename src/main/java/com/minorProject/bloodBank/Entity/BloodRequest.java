@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.minorProject.bloodBank.enums.Priority;
 import com.minorProject.bloodBank.enums.RequestStatus;

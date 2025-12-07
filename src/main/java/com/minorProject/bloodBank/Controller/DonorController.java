@@ -36,9 +36,9 @@ public class DonorController {
         return donorService.getALLDonors();
     }
 
-    @GetMapping("/donorInfo/{emailId}")
-    public DonorDTO getDonorById(@Valid @PathVariable String emailId)  {
-        return donorService.getDonorInfoById(emailId);
+    @GetMapping("/donorInfo/{id}")
+    public DonorDTO getDonorById(@Valid @PathVariable int id)  {
+        return donorService.getDonorInfoById(id);
     }
 
     @PostMapping("/donorLogin")
