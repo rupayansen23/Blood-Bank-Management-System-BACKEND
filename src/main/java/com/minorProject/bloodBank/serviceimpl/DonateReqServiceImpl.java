@@ -1,10 +1,9 @@
 package com.minorProject.bloodBank.serviceimpl;
 
 import com.minorProject.bloodBank.Entity.DonateRequest;
-import com.minorProject.bloodBank.Repository.BloodBankRepository;
 import com.minorProject.bloodBank.Repository.DonateRequestRepository;
+import com.minorProject.bloodBank.dto.ChangeStatusDTO;
 import com.minorProject.bloodBank.dto.DonateReqRespUserSideDTO;
-import com.minorProject.bloodBank.dto.DonateRequestDTO;
 import com.minorProject.bloodBank.service.DonateReqService;
 import com.minorProject.bloodBank.utils.DonateReqConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +60,22 @@ public class DonateReqServiceImpl implements DonateReqService {
         catch (RuntimeException re) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(re.getMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<?> patchUpdateStatus(int id, ChangeStatusDTO changeStatusDTO) {
+        try {
+            DonateRequest donateRequest = donateRequestRepository.findByReqId(id)
+                    .orElseThrow(() -> new RuntimeException("Data not found"));
+            if(donateRequest != null) {
+                donateRequest.setRequestStatus(changeStatusDTO.getStatus());
+                donateRequestRepository.save(donateRequest);
+                return ResponseEntity.ok(changeStatusDTO);
+            }
+        }
+        catch(RuntimeException re) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot Fulfil the request");
+        }
+        return null;
     }
 }
