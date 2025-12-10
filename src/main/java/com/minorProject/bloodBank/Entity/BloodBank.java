@@ -49,9 +49,9 @@ public class BloodBank
 	
 	@OneToMany  //one blood bank is in contact with many hospitals for the supply of blood 
 	private List<Hospital> hospital;
-	
-	@OneToMany  //one blood bank has different types of blood groups
-	private List<BloodBankBloodGroup> bloodBankBloodGroup;
+
+	@OneToMany(mappedBy = "bloodBank", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<BloodBankBloodGroup> bloodBankBloodGroups = new ArrayList<>();
 
 	@OneToMany(mappedBy = "bloodBank")
 	@JsonManagedReference(value = "bloodBank-bloodRequests")

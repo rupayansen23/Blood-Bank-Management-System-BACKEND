@@ -17,12 +17,13 @@ public class BloodBankBloodGroup
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int bloodBankBloodGroupId;
 	
-	@Column(length=30, nullable=false)
+	@Column(length=30)
 	private String bloodBankBloodGroupType;
 	
-	@Column(length=30, nullable=false)
-	private String bloodBankBloodAmount;
+	@Column(length=30)
+	private int bloodBankBloodAmount;
 	
 	@ManyToOne  //different types of donor blood groups are present in one blood bank
+	@JoinColumn(name = "blood_bank_blood_bank_id")
 	private BloodBank bloodBank;
 }

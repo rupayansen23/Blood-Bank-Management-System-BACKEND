@@ -1,6 +1,7 @@
 package com.minorProject.bloodBank.serviceimpl;
-
+import com.minorProject.bloodBank.Entity.BloodBankBloodGroup;
 import com.minorProject.bloodBank.Entity.DonateRequest;
+import com.minorProject.bloodBank.Repository.BloodBankBloodGroupRepository;
 import com.minorProject.bloodBank.Repository.DonateRequestRepository;
 import com.minorProject.bloodBank.dto.ChangeStatusDTO;
 import com.minorProject.bloodBank.dto.DonateReqRespUserSideDTO;
@@ -22,6 +23,9 @@ public class DonateReqServiceImpl implements DonateReqService {
 
     @Autowired
     DonateReqConverter donateReqConverter;
+
+    @Autowired
+    BloodBankBloodGroupRepository bloodBankBloodGroupRepository;
 
 
     @Override
@@ -65,9 +69,11 @@ public class DonateReqServiceImpl implements DonateReqService {
     @Override
     public ResponseEntity<?> patchUpdateStatus(int id, ChangeStatusDTO changeStatusDTO) {
         try {
+            System.out.println("Hiiii--------------------------------------------------------------");
             DonateRequest donateRequest = donateRequestRepository.findByReqId(id)
                     .orElseThrow(() -> new RuntimeException("Data not found"));
             if(donateRequest != null) {
+                System.out.println("------------------------HIIIIIII--------------------");
                 donateRequest.setRequestStatus(changeStatusDTO.getStatus());
                 donateRequestRepository.save(donateRequest);
                 return ResponseEntity.ok(changeStatusDTO);
@@ -75,6 +81,32 @@ public class DonateReqServiceImpl implements DonateReqService {
         }
         catch(RuntimeException re) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot Fulfil the request");
+        }
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> patchDonateRequestFulfill(int id, ChangeStatusDTO changeStatusDTO) {
+        try {
+            DonateRequest donateRequest = donateRequestRepository.findByReqId(id)
+                    .orElseThrow(()->new RuntimeException("Data not Found"));
+            if(donateRequest != null) {
+                BloodBankBloodGroup bloodBankBloodGroup = bloodBankBloodGroupRepository.findByBloodBankBloodGroupType(donateRequest.getBloodGroup());
+                if (bloodBankBloodGroup == null) {
+                    bloodBankBloodGroup = new BloodBankBloodGroup();
+                    bloodBankBloodGroup.setBloodBankBloodGroupType(donateRequest.getBloodGroup());
+                    bloodBankBloodGroup.setBloodBankBloodAmount(donateRequest.getUnits());
+                    bloodBankBloodGroup.setBloodBank(donateRequest.getBloodBank());
+                } else {
+                    bloodBankBloodGroup.setBloodBankBloodAmount(bloodBankBloodGroup.getBloodBankBloodAmount() + donateRequest.getUnits());
+                }
+                bloodBankBloodGroupRepository.save(bloodBankBloodGroup);
+                donateRequest.setRequestStatus(changeStatusDTO.getStatus());
+                donateRequestRepository.save(donateRequest);
+                return ResponseEntity.ok(changeStatusDTO);
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot Fulfil your Request");
         }
         return null;
     }

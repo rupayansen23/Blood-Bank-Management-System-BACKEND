@@ -8,4 +8,5 @@ public interface DonateReqService {
     public ResponseEntity<?> getDonateReqByBloodBank(int id);
     public ResponseEntity<?> getDonateReqByUserId(int id);
     public ResponseEntity<?> patchUpdateStatus(int id, ChangeStatusDTO changeStatusDTO);
+    public ResponseEntity<?> patchDonateRequestFulfill(int id, ChangeStatusDTO changeStatusDTO);
 }

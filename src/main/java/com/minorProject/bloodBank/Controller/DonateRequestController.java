@@ -39,4 +39,10 @@ public class DonateRequestController {
     public ResponseEntity<?> patchChengeStatus(@Valid @PathVariable int id, @RequestBody ChangeStatusDTO changeStatusDTO) {
         return donateReqService.patchUpdateStatus(id, changeStatusDTO);
     }
+
+    @PatchMapping("/fulfil-donate-req/{id}")
+    public ResponseEntity<?>  fulfilDonateRequest(@Valid @PathVariable int id, @RequestBody ChangeStatusDTO changeStatusDTO) {
+        return donateReqService.patchDonateRequestFulfill(id, changeStatusDTO);
+    }
+
 }
