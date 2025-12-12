@@ -1,6 +1,6 @@
 package com.minorProject.bloodBank.Entity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.minorProject.bloodBank.enums.RequestStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,16 +12,18 @@ public class DonateRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reqId;
 
-    @ManyToOne
-    @JsonManagedReference
+    // Donor is parent in DB sense? Here we treat Donor as parent (One Donor -> Many DonateRequest)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "donor_id")
+    @JsonBackReference(value = "donor-donateRequests")
     private Donor donor;
 
-    @ManyToOne
-    @JoinColumn()
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "blood_bank_id")
+    @JsonBackReference(value = "bloodBank-donateRequests")
     private BloodBank bloodBank;
 
-    private RequestStatus requestStatus = RequestStatus.PENDING;
+    private RequestStatus requestStatus;
     private String bloodGroup;
     private int units;
 }

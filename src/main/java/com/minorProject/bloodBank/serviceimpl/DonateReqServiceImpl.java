@@ -5,6 +5,7 @@ import com.minorProject.bloodBank.Repository.BloodBankBloodGroupRepository;
 import com.minorProject.bloodBank.Repository.DonateRequestRepository;
 import com.minorProject.bloodBank.dto.ChangeStatusDTO;
 import com.minorProject.bloodBank.dto.DonateReqRespUserSideDTO;
+import com.minorProject.bloodBank.enums.RequestStatus;
 import com.minorProject.bloodBank.service.DonateReqService;
 import com.minorProject.bloodBank.utils.DonateReqConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class DonateReqServiceImpl implements DonateReqService {
     @Override
     public ResponseEntity<?> saveDonateRequest(DonateRequest donateRequest) {
         try {
+            donateRequest.setRequestStatus(RequestStatus.PENDING);
             donateRequestRepository.save(donateRequest);
             return ResponseEntity.ok("request save success");
         }
@@ -44,7 +46,13 @@ public class DonateReqServiceImpl implements DonateReqService {
     public ResponseEntity<?> getDonateReqByBloodBank(int id) {
         try {
             List<DonateRequest> donateRequestList = donateRequestRepository.findByBloodBank_BloodBankId(id);
-            return ResponseEntity.ok(donateRequestList);
+            List<DonateReqRespUserSideDTO> donateRequestResp = new ArrayList<>();
+            if(donateRequestList != null) {
+                for(DonateRequest donateRequest : donateRequestList) {
+                    donateRequestResp.add(donateReqConverter.convertEntitytoDonateReqDTO(donateRequest));
+                }
+            }
+            return ResponseEntity.ok(donateRequestResp);
         }
         catch (RuntimeException re) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(re.getMessage());
@@ -69,11 +77,9 @@ public class DonateReqServiceImpl implements DonateReqService {
     @Override
     public ResponseEntity<?> patchUpdateStatus(int id, ChangeStatusDTO changeStatusDTO) {
         try {
-            System.out.println("Hiiii--------------------------------------------------------------");
             DonateRequest donateRequest = donateRequestRepository.findByReqId(id)
                     .orElseThrow(() -> new RuntimeException("Data not found"));
             if(donateRequest != null) {
-                System.out.println("------------------------HIIIIIII--------------------");
                 donateRequest.setRequestStatus(changeStatusDTO.getStatus());
                 donateRequestRepository.save(donateRequest);
                 return ResponseEntity.ok(changeStatusDTO);

@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.minorProject.bloodBank.enums.Priority;
@@ -24,10 +25,11 @@ public class BloodRequest {
     @EqualsAndHashCode.Exclude
     private Hospital requester;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="blood_bank_id")
     @ToString.Exclude               // ➜ ei line add
     @EqualsAndHashCode.Exclude      // ➜ ei line add
+    @JsonBackReference("bloodBank-bloodRequests")
     private BloodBank bloodBank;
 
     @Enumerated(EnumType.STRING)

@@ -57,7 +57,9 @@ public class DonateReqConverter {
             donateReqRespUserSideDTO.setRequestId(donateRequest.getReqId());
             donateReqRespUserSideDTO.setBloodBankName(donateRequest.getBloodBank().getBloodBankName());
             donateReqRespUserSideDTO.setUnites(donateRequest.getUnits());
+            donateReqRespUserSideDTO.setRequestStatus(donateRequest.getRequestStatus());
         }
         return donateReqRespUserSideDTO;
     }
+
 }
