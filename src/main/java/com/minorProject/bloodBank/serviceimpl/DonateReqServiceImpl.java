@@ -1,7 +1,9 @@
 package com.minorProject.bloodBank.serviceimpl;
+import com.minorProject.bloodBank.Entity.BloodBank;
 import com.minorProject.bloodBank.Entity.BloodBankBloodGroup;
 import com.minorProject.bloodBank.Entity.DonateRequest;
 import com.minorProject.bloodBank.Repository.BloodBankBloodGroupRepository;
+import com.minorProject.bloodBank.Repository.BloodBankRepository;
 import com.minorProject.bloodBank.Repository.DonateRequestRepository;
 import com.minorProject.bloodBank.dto.ChangeStatusDTO;
 import com.minorProject.bloodBank.dto.DonateReqRespUserSideDTO;
@@ -28,13 +30,16 @@ public class DonateReqServiceImpl implements DonateReqService {
     @Autowired
     BloodBankBloodGroupRepository bloodBankBloodGroupRepository;
 
+    @Autowired
+    BloodBankRepository bloodBankRepository;
+
 
     @Override
     public ResponseEntity<?> saveDonateRequest(DonateRequest donateRequest) {
         try {
             donateRequest.setRequestStatus(RequestStatus.PENDING);
             donateRequestRepository.save(donateRequest);
-            return ResponseEntity.ok("request save success");
+            return ResponseEntity.ok(donateReqConverter.convertEntitytoDonateReqDTO(donateRequest));
         }
         catch (RuntimeException re) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("cannot save request to db");
@@ -109,6 +114,9 @@ public class DonateReqServiceImpl implements DonateReqService {
                 bloodBankBloodGroupRepository.save(bloodBankBloodGroup);
                 donateRequest.setRequestStatus(changeStatusDTO.getStatus());
                 donateRequestRepository.save(donateRequest);
+                BloodBank bloodBank = donateRequest.getBloodBank();
+                bloodBank.setTotalDonors(donateRequestRepository.countDistinctDonorsByBloodBankId(bloodBank.getBloodBankId()));
+                bloodBankRepository.save(bloodBank);
                 return ResponseEntity.ok(changeStatusDTO);
             }
         } catch (RuntimeException e) {
