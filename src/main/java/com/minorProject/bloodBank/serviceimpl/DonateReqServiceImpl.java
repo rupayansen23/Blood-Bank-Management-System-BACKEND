@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DonateReqServiceImpl implements DonateReqService {
@@ -97,31 +98,55 @@ public class DonateReqServiceImpl implements DonateReqService {
     }
 
     @Override
-    public ResponseEntity<?> patchDonateRequestFulfill(int id, ChangeStatusDTO changeStatusDTO) {
+    public ResponseEntity<?> patchDonateRequestFulfill(
+            int id,
+            ChangeStatusDTO changeStatusDTO) {
+
         try {
-            DonateRequest donateRequest = donateRequestRepository.findByReqId(id)
-                    .orElseThrow(()->new RuntimeException("Data not Found"));
-            if(donateRequest != null) {
-                BloodBankBloodGroup bloodBankBloodGroup = bloodBankBloodGroupRepository.findByBloodBankBloodGroupType(donateRequest.getBloodGroup());
-                if (bloodBankBloodGroup == null) {
-                    bloodBankBloodGroup = new BloodBankBloodGroup();
-                    bloodBankBloodGroup.setBloodBankBloodGroupType(donateRequest.getBloodGroup());
-                    bloodBankBloodGroup.setBloodBankBloodAmount(donateRequest.getUnits());
-                    bloodBankBloodGroup.setBloodBank(donateRequest.getBloodBank());
-                } else {
-                    bloodBankBloodGroup.setBloodBankBloodAmount(bloodBankBloodGroup.getBloodBankBloodAmount() + donateRequest.getUnits());
-                }
-                bloodBankBloodGroupRepository.save(bloodBankBloodGroup);
-                donateRequest.setRequestStatus(changeStatusDTO.getStatus());
-                donateRequestRepository.save(donateRequest);
-                BloodBank bloodBank = donateRequest.getBloodBank();
-                bloodBank.setTotalDonors(donateRequestRepository.countDistinctDonorsByBloodBankId(bloodBank.getBloodBankId()));
-                bloodBankRepository.save(bloodBank);
-                return ResponseEntity.ok(changeStatusDTO);
+            DonateRequest donateRequest = donateRequestRepository
+                    .findByReqId(id)
+                    .orElseThrow(() -> new RuntimeException("Request not found"));
+
+            Optional<BloodBankBloodGroup> optionalGroup =
+                    bloodBankBloodGroupRepository.findByBankAndGroup(
+                            changeStatusDTO.getBloodBankId(),
+                            donateRequest.getBloodGroup()
+                    );
+
+            BloodBankBloodGroup bloodBankBloodGroup;
+
+            if (optionalGroup.isPresent()) {
+                bloodBankBloodGroup = optionalGroup.get();
+                bloodBankBloodGroup.setBloodBankBloodAmount(
+                        bloodBankBloodGroup.getBloodBankBloodAmount()
+                                + donateRequest.getUnits()
+                );
+            } else {
+                bloodBankBloodGroup = new BloodBankBloodGroup();
+                bloodBankBloodGroup.setBloodBankBloodGroupType(donateRequest.getBloodGroup());
+                bloodBankBloodGroup.setBloodBankBloodAmount(donateRequest.getUnits());
+                bloodBankBloodGroup.setBloodBank(donateRequest.getBloodBank());
             }
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot Fulfil your Request");
+
+            bloodBankBloodGroupRepository.save(bloodBankBloodGroup);
+
+            donateRequest.setRequestStatus(changeStatusDTO.getStatus());
+            donateRequestRepository.save(donateRequest);
+
+            BloodBank bloodBank = donateRequest.getBloodBank();
+            bloodBank.setTotalDonors(
+                    donateRequestRepository
+                            .countDistinctDonorsByBloodBankId(bloodBank.getBloodBankId())
+            );
+            bloodBankRepository.save(bloodBank);
+
+            return ResponseEntity.ok(changeStatusDTO);
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
-        return null;
     }
+
 }

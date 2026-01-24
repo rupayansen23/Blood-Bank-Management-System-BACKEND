@@ -16,7 +16,7 @@ import java.util.List;
 public class BloodBank {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int bloodBankId;
+	private Integer bloodBankId;
 
 	@Column(length=30, nullable=false)
 	private String bloodBankName;

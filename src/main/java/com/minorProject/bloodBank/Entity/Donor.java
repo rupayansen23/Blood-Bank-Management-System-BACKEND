@@ -31,7 +31,7 @@ public class Donor {
 	@Column(length=12, nullable=true)
 	private String donorWeight;
 
-	@Column(length=25, nullable=true)
+	@Column(length=50, nullable=true)
 	private String donorAddress;
 
 	@Column(length=16, nullable=true)

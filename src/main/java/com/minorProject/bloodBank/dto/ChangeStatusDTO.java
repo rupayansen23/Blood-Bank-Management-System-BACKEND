@@ -5,5 +5,6 @@ import lombok.Data;
 
 @Data
 public class ChangeStatusDTO {
+    private Integer bloodBankId;
     private RequestStatus status;
 }
