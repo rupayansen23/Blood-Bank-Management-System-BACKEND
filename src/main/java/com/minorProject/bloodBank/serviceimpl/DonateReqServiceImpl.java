@@ -148,5 +148,4 @@ public class DonateReqServiceImpl implements DonateReqService {
                     .body(e.getMessage());
         }
     }
-
 }

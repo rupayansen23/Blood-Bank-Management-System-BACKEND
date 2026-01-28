@@ -1,6 +1,7 @@
 package com.minorProject.bloodBank.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.minorProject.bloodBank.enums.BloodGroup;
 import com.minorProject.bloodBank.enums.RequestStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,6 +25,9 @@ public class DonateRequest {
     private BloodBank bloodBank;
 
     private RequestStatus requestStatus;
-    private String bloodGroup;
+
+    @Enumerated(EnumType.STRING)
+    private BloodGroup bloodGroup;
+
     private int units;
 }

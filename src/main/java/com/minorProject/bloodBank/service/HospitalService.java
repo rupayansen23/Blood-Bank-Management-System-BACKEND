@@ -10,4 +10,8 @@ public interface HospitalService {
     public HospitalDTO saveHospital(Hospital hospital);
     public ResponseEntity<?> hospitalLogin(String userName, String password);
     public List<HospitalDTO> getAllHospitals();
+
+    ResponseEntity<?> fetchHospitalById(Integer id);
+
+    ResponseEntity<?> getBloodRequestByHospitalId(int id);
 }

@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Controller;
 import com.minorProject.bloodBank.Entity.BloodRequest;
+import com.minorProject.bloodBank.dto.BloodRequestResponseDTO;
 import com.minorProject.bloodBank.dto.CreateBloodRequestDTO;
 import com.minorProject.bloodBank.service.BloodRequestService;
 import com.minorProject.bloodBank.utils.BloodRequestConverter;
@@ -27,5 +28,25 @@ public class BloodRequestController {
     @GetMapping("/getRequestsById/{id}")
     public ResponseEntity<?> getRequestsById(@Valid @PathVariable int id) {
         return bloodRequestService.showRequestsById(id);
+    }
+
+    @PatchMapping("/bug-patch/{id}")
+    public ResponseEntity<?> patchBloodRequests(@PathVariable int id) {
+        return bloodRequestService.addStatus(id);
+    }
+
+    @PatchMapping("/update-accepted/{id}")
+    public ResponseEntity<?> updateStatusToAccepted(@PathVariable int id) {
+        return bloodRequestService.updateStatusAccepted(id);
+    }
+
+    @PatchMapping("/update-rejected/{id}")
+    public ResponseEntity<?> updateStatusToRejected(@PathVariable int id) {
+        return bloodRequestService.updateStatusRejected(id);
+    }
+
+    @PatchMapping("/update-fulfil/{id}")
+    public ResponseEntity<?> updateStatusToFulfil(@PathVariable int id) {
+        return bloodRequestService.updateStatusFulFiled(id);
     }
 }

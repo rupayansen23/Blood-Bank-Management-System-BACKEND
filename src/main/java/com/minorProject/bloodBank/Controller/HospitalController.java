@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Controller;
 import com.minorProject.bloodBank.Entity.Hospital;
+import com.minorProject.bloodBank.dto.BloodRequestResponseDTO;
 import com.minorProject.bloodBank.dto.HospitalDTO;
 import com.minorProject.bloodBank.dto.LoginRequest;
 import com.minorProject.bloodBank.service.HospitalService;
@@ -21,6 +22,11 @@ public class HospitalController {
     @Autowired
     HospitalService hospitalService;
 
+    @GetMapping("/fetchHospitalById/{id}")
+    public ResponseEntity<?> fetchHospitalById(@PathVariable Integer id) {
+        return hospitalService.fetchHospitalById(id);
+    }
+
     @PostMapping("/saveHospital")
     public HospitalDTO saveHospital(@Valid @RequestBody HospitalDTO hospitalDTO) {
         Hospital hospital =  hospitalConverter.convertHospitalDTOtoEntity(hospitalDTO);
@@ -35,5 +41,10 @@ public class HospitalController {
     @GetMapping("/getAllHospitals")
     public List<HospitalDTO> getAllHospitals() {
         return hospitalService.getAllHospitals();
+    }
+
+    @GetMapping("/bloodReqByHospital/{id}")
+    public ResponseEntity<?> fetchBloodRequestByHospitalId(@PathVariable int id) {
+        return hospitalService.getBloodRequestByHospitalId(id);
     }
 }

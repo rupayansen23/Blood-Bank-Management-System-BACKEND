@@ -1,6 +1,7 @@
 package com.minorProject.bloodBank.Repository;
 
 import com.minorProject.bloodBank.Entity.BloodBankBloodGroup;
+import com.minorProject.bloodBank.enums.BloodGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,6 @@ public interface BloodBankBloodGroupRepository extends JpaRepository<BloodBankBl
     """)
     Optional<BloodBankBloodGroup> findByBankAndGroup(
             @Param("bankId") Integer bankId,
-            @Param("group") String bloodGroup
+            @Param("group") BloodGroup bloodGroup
     );
 }

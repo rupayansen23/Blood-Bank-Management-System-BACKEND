@@ -1,7 +1,9 @@
 package com.minorProject.bloodBank.Entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.minorProject.bloodBank.enums.BloodGroup;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class Donor {
 	private String donorName;
 
 	@Column(nullable=true)
-	private int donorAge;
+	private Integer donorAge;
 
 	@Column(length=12, nullable=true)
 	private String donorGender;
@@ -34,8 +36,10 @@ public class Donor {
 	@Column(length=50, nullable=true)
 	private String donorAddress;
 
-	@Column(length=16, nullable=true)
-	private String donorBloodGroup;
+	@Enumerated(EnumType.STRING)
+	//@NotNull(message = "Donor blood group is required")
+	private BloodGroup donorBloodGroup;
+
 
 	@Column(length=10, nullable=false, unique=true)
 	private String donorContactNumber;

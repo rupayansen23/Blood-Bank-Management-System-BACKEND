@@ -1,5 +1,6 @@
 package com.minorProject.bloodBank.Entity;
 
+import com.minorProject.bloodBank.enums.BloodGroup;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,8 @@ public class BloodBankBloodGroup
 	private int bloodBankBloodGroupId;
 	
 	@Column(length=30)
-	private String bloodBankBloodGroupType;
+	@Enumerated(EnumType.STRING)
+	private BloodGroup bloodBankBloodGroupType;
 	
 	@Column(length=30)
 	private int bloodBankBloodAmount;

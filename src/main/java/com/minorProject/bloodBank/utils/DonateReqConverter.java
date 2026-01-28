@@ -7,6 +7,7 @@ import com.minorProject.bloodBank.Repository.DonorRepository;
 import com.minorProject.bloodBank.dto.DonateReqRespUserSideDTO;
 import com.minorProject.bloodBank.dto.DonateRequestDTO;
 import com.minorProject.bloodBank.dto.DonorDTO;
+import com.minorProject.bloodBank.enums.BloodGroup;
 import com.minorProject.bloodBank.enums.RequestStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class DonateReqConverter {
             donateRequest.setBloodBank(bloodBankRepository.getReferenceById(donateRequestDTO.getBloodBankId()));
             donateRequest.setUnits(donateRequestDTO.getUnites());
             donateRequest.setRequestStatus(RequestStatus.PENDING);
-            String bloodGroup = donateRequestDTO.getDonorDTO().getDonorBloodGroup();
+            BloodGroup bloodGroup = donateRequestDTO.getDonorDTO().getDonorBloodGroup();
             donateRequest.setBloodGroup(bloodGroup);
             Optional<Donor> donorOptional = donorRepository.findDonorBydonorId(donateRequest.getDonor().getDonorId());
             if(donorOptional.isPresent()) {
@@ -61,5 +62,4 @@ public class DonateReqConverter {
         }
         return donateReqRespUserSideDTO;
     }
-
 }

@@ -1,6 +1,9 @@
 package com.minorProject.bloodBank.dto;
 
 import com.minorProject.bloodBank.Entity.BloodBank;
+import com.minorProject.bloodBank.enums.BloodGroup;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -34,12 +37,12 @@ public class DonorDTO
 	@Size(min=2,message="Min. 10 characters required")
 //	@NotNull(message="Donor's address is required")
 	private String donorAddress;
-	
-	@Size(max=5, message="Max. limit 16 characters")
-	@Size(min=2,message="Min. 5 characters required")
-//	@NotNull(message="Donor's blood group is required")
-	private String donorBloodGroup;
-	
+
+	@Enumerated(EnumType.STRING)
+	//@NotNull(message = "Donor blood group is required")
+	private BloodGroup donorBloodGroup;
+
+
 	@Size(max=10, message="Max. limit 10 characters")
 	@Size(min=10,message="Min. 10 characters required")
 	@NotNull(message="Donor's contact number is required")

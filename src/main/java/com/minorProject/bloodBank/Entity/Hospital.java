@@ -54,6 +54,9 @@ public class Hospital
 	@EqualsAndHashCode.Exclude
 	private List<BloodRequest> bloodRequests;
 
+	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+	List<HospitalBloodGroup> hospitalBloodGroups = new ArrayList<>();
+
 	public String getAdminID() {
 		return adminID;
 	}
